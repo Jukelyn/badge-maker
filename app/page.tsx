@@ -10,6 +10,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 
 interface BadgeData {
@@ -27,8 +28,13 @@ export default function Home() {
   const generateBadges = async () => {
     const slugs = inputText.split(",").map((slug) => slug.trim());
 
-    if (!slugs.length || (slugs.length === 1 && !slugs[0])) {
-      toast.error("Please enter comma-separated simple-icons slugs.");
+    if (!slugs.length || slugs.every((slug) => !slug)) {
+      toast.error("Please enter valid comma-separated simple-icons slugs.");
+      return;
+    }
+
+    if (slugs.length > 1 && !inputText.includes(",")) {
+      toast.error("Please separate slugs with commas.");
       return;
     }
 
@@ -60,7 +66,11 @@ export default function Home() {
       setGeneratedBadges(data.badges);
       setInvalidSlugs(data.invalid_slugs);
 
-      toast.success("Badges generated successfully!");
+      if (data.badges && data.badges.length > 0) {
+        toast.success("Badges generated successfully!");
+      } else {
+        toast.error("There were no valid slugs provided.");
+      }
     } catch (error: unknown) {
       console.error("Error generating badges:", error);
       if (error instanceof Error) {
@@ -109,37 +119,44 @@ export default function Home() {
               >
                 {isLoading ? "Generating..." : "Generate Badges"}
               </Button>
-
-              {generatedBadges.length > 0 && (
-                <div className="mt-6 space-y-2">
-                  <h3 className="text-sm font-medium">Generated Badges:</h3>
-                  <ul className="space-y-2">
-                    {generatedBadges.map((badge) => (
-                      <li key={badge.name} className="break-words">
-                        <code>{badge.markdown}</code>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {invalidSlugs.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  <h3 className="text-sm font-medium text-red-500">
-                    Invalid Slugs:
-                  </h3>
-                  <ul className="list-disc pl-5">
-                    {invalidSlugs.map((slug) => (
-                      <li key={slug} className="text-red-500 break-words">
-                        {slug}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
+        {generatedBadges.length > 0 && (
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle>Generated Badges</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {generatedBadges.map((badge) => (
+                  <li key={badge.name}>
+                    <ScrollArea className="rounded-md border py-2 max-h-16 whitespace-nowrap overflow-auto">
+                      <code>{badge.markdown}</code>
+                      <ScrollBar orientation="horizontal" className="h-2 bg-gray-300" />
+                    </ScrollArea>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+        {invalidSlugs.length > 0 && (
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle>Invalid Slugs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc pl-5">
+                {invalidSlugs.map((slug) => (
+                  <li key={slug} className="text-red-500 break-words">
+                    {slug}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </main>
   );
