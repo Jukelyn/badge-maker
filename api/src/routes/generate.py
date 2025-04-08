@@ -3,28 +3,30 @@
 This module provides the route for the generation endpoint.
 """
 from flask import request, jsonify
+from simpleicons.icon import Icon
 from simpleicons.all import icons
 
 
-def get_badge_url(name: str) -> str:
+def get_badge_url(icon: Icon) -> str:
     """
     Generates the markdown badge URL.
 
     Args:
-        name (str): The slug of the badge from simpleicons.
+        name (Icon): Simpleicons icon.
 
     Returns:
         (str): The markdown badge URL.
     """
+
     base_url = "https://img.shields.io/badge"
-    queries = f"?style=for-the-badge&logo={name}&logoColor=white"
-    first_part = f"![{name.title()}]"
-    link_part = f"({base_url}/{name}-%23<badge_color>.svg{queries})"
+    first_part = f"![{icon.title}]"
+    queries = f"style=for-the-badge&logo={icon.slug}&logoColor=white"
+    link_part = f"({base_url}/{icon.slug}-%23{icon.hex}.svg?{queries})"
     badge_url = first_part + link_part
     return badge_url
 
 
-def make_md_table_row(name: str) -> dict:
+def make_md_table_row(icon: Icon) -> dict:
     """
     Makes a dictionary representing a markdown table row for the badge.
 
@@ -34,9 +36,10 @@ def make_md_table_row(name: str) -> dict:
     Returns:
         (dict): A dictionary containing the table row data.
     """
-    link = get_badge_url(name)
+    link = get_badge_url(icon)
+
     return {
-        "name": name.title(),
+        "name": icon.title,
         "markdown": link,
         "markdown_code": f"`{link}`"
     }
@@ -75,7 +78,7 @@ def generate_route(app):
         for slug in slugs:
             icon = icons.get(slug)
             if icon:
-                results.append(make_md_table_row(icon.slug))
+                results.append(make_md_table_row(icon))
             else:
                 invalid_slugs.append(slug)
 
