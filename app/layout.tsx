@@ -8,8 +8,8 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Text Processor",
-  description: "Process text with a Flask backend",
+  title: "Badge Maker",
+  description: "Make markdown badges from simpleicons icons.",
 };
 
 export default function RootLayout({
