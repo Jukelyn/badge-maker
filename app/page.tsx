@@ -126,6 +126,10 @@ export default function Home() {
           <Card className="mt-4">
             <CardHeader>
               <CardTitle>Generated Badges</CardTitle>
+              <CardDescription>
+                Some badges may need the logoColor query to be black (instead of
+                white) to match the icon.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
