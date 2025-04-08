@@ -8,8 +8,8 @@ from src.routes import register_routes
 
 app = Flask(__name__)
 
-# TODO: add my subdomain here later
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["http://localhost:3000",
+     "https://badge-maker.jukelyn.com/"])
 
 register_routes(app)
 
