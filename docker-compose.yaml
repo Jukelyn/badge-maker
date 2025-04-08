@@ -17,7 +17,7 @@ services:
       - main_sites
     restart: always
     depends_on:
-      - api
+      - badge_maker_api
 
 networks:
   main_sites:
