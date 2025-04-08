@@ -1,0 +1,38 @@
+---
+name: CI-SFTP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - "app/**"
+      - "components/**"
+      - "public/**"
+      - "docker-compose.yaml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-via-sftp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.5
+        with:
+          username: ${{ secrets.SSH_USER }}
+          server: ${{ secrets.SSH_SERVER }}
+          port: ${{ secrets.SSH_SERVER_PORT }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+          local_path: ./* # On Github
+          # Ex: /path/flask_app/ places the content into flask_app directory
+          remote_path: ${{ secrets.REMOTE_PATH }}
+          delete_remote_files: true
+          # sftp args
+          args: "-o ConnectTimeout=5"
