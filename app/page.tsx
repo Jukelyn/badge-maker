@@ -125,7 +125,9 @@ export default function Home() {
         {generatedBadges.length > 0 && (
           <Card className="mt-4">
             <CardHeader>
-              <CardTitle>Generated Badges</CardTitle>
+              <CardTitle className="font-bold text-center">
+                Generated Badges
+              </CardTitle>
               <CardDescription>
                 Some badges may need the logoColor query to be set to black
                 (instead of white) to match the icon, e.g., the React badge.
@@ -151,7 +153,9 @@ export default function Home() {
         {invalidSlugs.length > 0 && (
           <Card className="mt-4">
             <CardHeader>
-              <CardTitle>Invalid Slugs</CardTitle>
+              <CardTitle className="font-bold text-center">
+                Invalid Slugs
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc pl-5">
