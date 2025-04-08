@@ -127,8 +127,8 @@ export default function Home() {
             <CardHeader>
               <CardTitle>Generated Badges</CardTitle>
               <CardDescription>
-                Some badges may need the logoColor query to be black (instead of
-                white) to match the icon. e.g. the React badge.
+                Some badges may need the logoColor query to be set to black
+                (instead of white) to match the icon, e.g., the React badge.
               </CardDescription>
             </CardHeader>
             <CardContent>
