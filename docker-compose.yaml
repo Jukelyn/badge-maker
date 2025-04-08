@@ -1,18 +1,24 @@
 services:
-  api:
-    build: ./api
-    ports:
-      - "5000:5000"
-    volumes:
-      # If you want to mount your Flask code for development (hot-reloading)
-      # - ./api:/app
-    depends_on: pass
+  badge_maker_api:
+    container_name: badge_maker_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    networks: # Port 5000
+      - main_sites
+    restart: always
 
-  frontend:
-    build: ./app
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_BASE_URL: "http://localhost:5000"
+  badge_maker_frontend:
+    container_name: badge_maker_frontend
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    networks: # Port 3000
+      - main_sites
+    restart: always
     depends_on:
       - api
+
+networks:
+  main_sites:
+    external: true
