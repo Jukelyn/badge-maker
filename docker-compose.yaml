@@ -1,0 +1,18 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - "5000:5000"
+    volumes:
+      # If you want to mount your Flask code for development (hot-reloading)
+      # - ./api:/app
+    depends_on: pass
+
+  frontend:
+    build: ./app
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:5000"
+    depends_on:
+      - api
