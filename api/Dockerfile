@@ -1,4 +1,10 @@
 FROM python:3.13-slim
+
+RUN addgroup -S appuser && adduser -S appuser -G appuser
+RUN groupadd -g 1000 appuser && useradd -u 1000 -g appuser appuser
+
+USER appuser
+
 WORKDIR /app
 
 COPY requirements.txt .
