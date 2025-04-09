@@ -8,6 +8,7 @@ on:
       - "api/**"
       - "app/**"
       - "components/**"
+      - "lib/**"
       - "public/**"
       - "docker-compose.yaml"
 
