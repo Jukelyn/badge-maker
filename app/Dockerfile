@@ -1,7 +1,6 @@
 FROM node:23.10.0-alpine AS base
 WORKDIR /app
 
-# Only install libc6-compat in base if really needed by native deps
 RUN apk add --no-cache libc6-compat
 
 # === Install deps ===
@@ -28,6 +27,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
 
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
@@ -37,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 USER nextjs
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["npm", "start"] # Ensure the start command is used for production
