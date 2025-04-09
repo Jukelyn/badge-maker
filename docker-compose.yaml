@@ -1,3 +1,4 @@
+---
 services:
   badge_maker_api:
     container_name: badge_maker_api
