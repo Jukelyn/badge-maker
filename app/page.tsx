@@ -109,6 +109,7 @@ export default function Home() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && generateBadges()}
+                  autoFocus
                 />
               </div>
 
