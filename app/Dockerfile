@@ -39,6 +39,8 @@ COPY --from=build /app/public ./public
 COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+RUN apt-get update && apt-get install --no-install-recommends -y curl=7.88.1-10+deb12u12 && rm -rf /var/lib/apt/lists/*
+
 USER nextjs
 
 EXPOSE $PORT
@@ -46,7 +48,6 @@ EXPOSE $PORT
 ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
 
-RUN apt-get update && apt-get install --no-install-recommends -y curl=7.88.1-10+deb12u12 && rm -rf /var/lib/apt/lists/*
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
     CMD curl --fail https://badge-maker-api.jukelyn.com/health || exit 1
