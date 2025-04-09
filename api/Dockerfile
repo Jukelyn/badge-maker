@@ -2,18 +2,19 @@ FROM python:3.13-slim
 
 RUN groupadd -g 1000 appuser && useradd -u 1000 -g appuser appuser
 
-USER appuser
-
 WORKDIR /app
 
 COPY requirements.txt .
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY src ./src
 COPY run.py .
 
 EXPOSE 5000
+
+USER appuser
 
 CMD ["python", "run.py"]
 
