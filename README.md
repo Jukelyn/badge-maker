@@ -1,4 +1,21 @@
-## Getting Started
+### Workflow Statuses
+
+![Docker Deploy Workflow Badge](https://github.com/Jukelyn/badge-maker/actions/workflows/docker-deploy.yaml/badge.svg)
+![CI-SFTP Workflow Badge](https://github.com/Jukelyn/badge-maker/actions/workflows/ci-sftp.yaml/badge.svg)
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Local Development](#local-development)
+- [Deployment Workflows](#deployment-workflows)
+  - [Workflow Actions Secrets](#workflow-actions-secrets)
+  - [CI-SFTP Workflow](#ci-sftp-workflow)
+  - [Docker Deploy Workflow](#docker-deploy-workflow)
+
+# Introduction
+The frontend of this web application is built with Next.JS (React) and TypeScript, while the backend utilizes Python's Flask framework. The input area can recieve comma seperated simpleicons slugs. All the available valid slugs can be found [here](https://badge-maker-api.jukelyn.com/available_icons). The outputted badges are made to used in markdown enviornments but since the url is in the output, that can be easily extracted and used in other places as well.
+
+# Local Development
 
 First, run the Python API:
 
@@ -18,7 +35,7 @@ $ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Deployment Workflows
+# Deployment Workflows
 
 There are two [workflows](https://docs.github.com/en/actions/writing-workflows/about-workflows) that I have written (`ci-sftp.yaml` and `docker-deploy.yaml`) that will automatically copy files from the repo to a server and use docker compose to deploy containers for the API and frontend.
 
@@ -65,10 +82,9 @@ Read [this](https://jukelyn.com/posts/ssh-keys/) for more info on SSH keys.
 
 Once you have the SSH public key on the server copy the contents of the *private* key to the `SSH_PRIVATE_KEY` repository secret. Don't forget the newline at the end.
 
-### CI-SFTP Workflow
-The CI-SFTP.yaml uses the SFTP-Deploy-Action from wlixcc.
+## CI-SFTP Workflow
+The `CI-SFTP.yaml` workflow uses the SFTP-Deploy-Action from wlixcc. The workflow has one job that runs on a Linux server provided by GitHub. First, it downloads the code. It then copies all the files from your project to a specific folder on the server (specified by `REMOTE_PATH` and `SSH_SERVER`), and it first deletes everything that's already in that folder on the server. It also sets a short time limit for connecting to the server.
 
-The `docker-deploy.yaml` uses the `docker compose` command so make sure that the server you are pushing to has the Docker Engine, CLI, and compose plugin. See [here](https://docs.docker.com/compose/install/#scenario-two-install-the-docker-compose-plugin) for more info.
+## Docker Deploy Workflow
 
-
-WIP (Add docker workflow info and badges, maybe a banner)
+The `docker-deploy.yaml` uses the `docker compose` command so make sure that the server you are pushing to has the Docker Engine, CLI, and compose plugin. See [here](https://docs.docker.com/compose/install/#scenario-two-install-the-docker-compose-plugin) for more info on installing Docker (compose). It connects to the remote server using SSH with a private key stored securely as a secret. Once connected, it navigates to a specific directory and runs `docker compose up --build -d`. This command rebuilds the Docker images if needed and then starts or updates the containers defined in the `docker-compose.yaml` file on the server. Finally, it cleans up by deleting the temporary private key file from the workflow runner.
