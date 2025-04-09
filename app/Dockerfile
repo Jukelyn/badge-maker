@@ -1,7 +1,7 @@
 FROM node:23.10.0-alpine AS base
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat=1.2.3-r0
 
 # === Install deps ===
 FROM base AS deps
