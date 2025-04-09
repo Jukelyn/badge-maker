@@ -1,40 +1,47 @@
-FROM node:23.10.0-alpine AS base
+FROM node:22-slim AS base
+
+ARG PORT=3000
+
+ENV NEXT_TELEMETRY_DISABLED=1
+
 WORKDIR /app
 
-RUN apk update && apk add --no-cache libc6-compat=1.2.3-r0
+# Dependencies
+FROM base AS dependencies
 
-# === Install deps ===
-FROM base AS deps
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
-RUN npm install -g npm@11.2.0 && npm ci
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# === Build the app ===
-FROM base AS builder
-COPY --from=deps /app/node_modules ./node_modules
+# Build
+FROM base AS build
+
+COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+
+# Public build-time environment variables
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
 RUN npm run build
 
-# === Final runtime ===
-FROM base AS runner
+# Run
+FROM base AS run
 
-# Create non-root user
-RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
-
-WORKDIR /app
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV HOSTNAME="0.0.0.0"
-ENV PORT=3000
+ENV PORT=$PORT
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD wget -q --spider http://badge_maker_api:5000/health || exit 1
+COPY --from=build /app/public ./public
+COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE $PORT
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
