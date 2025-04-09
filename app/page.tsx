@@ -113,7 +113,9 @@ export default function Home() {
               </div>
 
               <Button
-                onClick={generateBadges}
+                onClick={() => {
+                  generateBadges();
+                }}
                 className="w-full"
                 disabled={isLoading}
               >
