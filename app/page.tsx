@@ -142,10 +142,7 @@ export default function Home() {
                   <li key={badge.name}>
                     <ScrollArea className="rounded-md border py-2 max-h-16 whitespace-nowrap overflow-auto">
                       <code>{badge.markdown}</code>
-                      <ScrollBar
-                        orientation="horizontal"
-                        className="h-2 bg-gray-300"
-                      />
+                      <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                   </li>
                 ))}
