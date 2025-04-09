@@ -1,0 +1,35 @@
+---
+name: Docker Build + Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI-SFTP"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  restart-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Write SSH private key to file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/private_key.pem
+          chmod 600 /tmp/private_key.pem
+
+      - name: Restart Docker container
+        run: |
+          ssh -i /tmp/private_key.pem \
+            -o StrictHostKeyChecking=no \
+            -p ${{ secrets.SSH_SERVER_PORT }} \
+             ${{ secrets.SSH_USER }}@${{ secrets.SSH_SERVER }} \
+                  'cd ${{ secrets.REMOTE_PATH }} && \
+                  docker compose up --build -d'
+      - name: Clean up SSH private key
+        run: |
+          rm /tmp/private_key.pem
