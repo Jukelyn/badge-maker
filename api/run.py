@@ -8,7 +8,9 @@ from src.routes import register_routes
 
 app = Flask(__name__)
 
-CORS(app, origins=["http://localhost:3000", "http://badge-maker.jukelyn.com/"])
+CORS(app, origins=["http://localhost:3000",
+                   "http://badge-maker.jukelyn.com/",
+                   "https://badge-maker.jukelyn.com/"])
 
 register_routes(app)
 
