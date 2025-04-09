@@ -23,7 +23,10 @@ jobs:
       - name: Lint Code Base
         uses: super-linter/super-linter@v7.3.0
         env:
-          FILTER_REGEX_EXCLUDE: "(README.md|\\.github/.*|ERR_UNKNOWN_FILE_EXTENSION)"
+          VALIDATE_JAVASCRIPT_STANDARD: false # Disable the default JS linter
+          VALIDATE_TYPESCRIPT_ESLINT: true
+          TYPESCRIPT_ESLINT_CONFIG_FILE: eslint.config.mjs
+          FILTER_REGEX_EXCLUDE: "(README.md|\\.github/.*)" # Removed the error-specific exclusion
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_PYTHON_BLACK: false
           VALIDATE_PYTHON_ISORT: false
