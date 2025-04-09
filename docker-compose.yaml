@@ -12,7 +12,7 @@ services:
     container_name: badge_maker_frontend
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: app/Dockerfile
     networks: # Port 3000
       - main_sites
     restart: always
