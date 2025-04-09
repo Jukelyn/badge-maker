@@ -14,6 +14,9 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
+      args:
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     networks: # Port 3000
       - main_sites
     restart: always
