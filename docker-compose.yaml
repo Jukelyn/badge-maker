@@ -15,12 +15,12 @@ services:
       context: .
       dockerfile: app/Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://badge_maker_api:5000}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://badge_maker_api:5000}
     networks: # Port 3000
       - main_sites
     restart: always
     environment:
-      - NEXT_PUBLIC_API_URL=http://badge_maker_api:5000
+      - NEXT_PUBLIC_API_URL=https://badge_maker_api:5000
     depends_on:
       - badge_maker_api
 
