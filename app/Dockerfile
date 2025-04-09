@@ -1,7 +1,7 @@
 FROM node:23.10.0-alpine AS base
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat=1.2.3-r0
+RUN apk update && apk add --no-cache libc6-compat=1.2.3-r0
 
 # === Install deps ===
 FROM base AS deps
@@ -37,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 USER nextjs
 
 EXPOSE 3000
-CMD ["npm", "start"] # Ensure the start command is used for production
+CMD ["npm", "start"]
