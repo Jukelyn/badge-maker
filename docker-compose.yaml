@@ -16,6 +16,8 @@ services:
     networks: # Port 3000
       - main_sites
     restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=http://badge_maker_api:5000
     depends_on:
       - badge_maker_api
 

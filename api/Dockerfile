@@ -1,12 +1,12 @@
 FROM python:3.13-slim
 WORKDIR /app
 
-COPY api/requirements.txt .
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY api/src ./src
-COPY api/run.py .
+COPY src ./src
+COPY run.py .
 
 EXPOSE 5000
 
