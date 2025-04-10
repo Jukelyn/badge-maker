@@ -39,7 +39,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 There are two [workflows](https://docs.github.com/en/actions/writing-workflows/about-workflows) that I have written (`ci-sftp.yaml` and `docker-deploy.yaml`) that will automatically copy files from the repo to a server and use docker compose to deploy containers for the API and frontend.
 
-### Workflow Actions Secrets
+## Workflow Actions Secrets
 In order for the workflows to work, there needs to be 5 repository secrets set. Here are some examples of what those are and example values:
 
 ```yaml
