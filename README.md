@@ -1,4 +1,4 @@
-### Workflow Statuses
+# Workflow Statuses
 
 ![Docker Deploy Workflow Badge](https://github.com/Jukelyn/badge-maker/actions/workflows/docker-deploy.yaml/badge.svg)
 ![CI-SFTP Workflow Badge](https://github.com/Jukelyn/badge-maker/actions/workflows/ci-sftp.yaml/badge.svg)
