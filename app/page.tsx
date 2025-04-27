@@ -104,6 +104,7 @@ export default function Home() {
                   Simple-Icons Slugs
                 </label>
                 <Input
+                  className="mt-4"
                   id="input-text"
                   placeholder="e.g., react, nextdotjs, github"
                   value={inputText}
