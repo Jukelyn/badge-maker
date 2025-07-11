@@ -63,6 +63,3 @@ EXPOSE $PORT
 # https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD curl --fail https://badge-maker-api.jukelyn.com/health || exit 1
