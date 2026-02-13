@@ -87,7 +87,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen dark:bg-black py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
+      <div className="md:max-w-xl lg:max-w-3xl mx-auto">
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
