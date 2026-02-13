@@ -51,14 +51,14 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ slugs }), // Send the array of slugs
-        }
+        },
       );
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
           errorData?.error ||
-            `Failed to generate badges (HTTP ${response.status})`
+            `Failed to generate badges (HTTP ${response.status})`,
         );
       }
 
@@ -75,7 +75,7 @@ export default function Home() {
       console.error("Error generating badges:", error);
       if (error instanceof Error) {
         toast.error(
-          error.message || "Failed to generate badges. Please try again."
+          error.message || "Failed to generate badges. Please try again.",
         );
       } else {
         toast.error("An unknown error occurred. Please try again.");
@@ -100,7 +100,10 @@ export default function Home() {
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="input-text" className="text-sm font-medium">
+                <label
+                  htmlFor="input-text"
+                  className="text-sm font-medium"
+                >
                   Simple-Icons Slugs
                 </label>
                 <Input
@@ -161,7 +164,10 @@ export default function Home() {
             <CardContent>
               <ul className="list-disc pl-5">
                 {invalidSlugs.map((slug) => (
-                  <li key={slug} className="text-red-500 break-words">
+                  <li
+                    key={slug}
+                    className="text-red-500 wrap-break-word"
+                  >
                     {slug}
                   </li>
                 ))}
