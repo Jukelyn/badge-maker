@@ -9,6 +9,10 @@ from src.routes import register_routes
 app = Flask(__name__)
 
 CORS(app, origins=["http://localhost:3000",
+                   "http://mdbadges.jukelyn.com",
+                   "https://mdbadges.jukelyn.com",
+                   "http://badges.jukelyn.com",
+                   "https://badges.jukelyn.com",
                    "http://badge-maker.jukelyn.com",
                    "https://badge-maker.jukelyn.com"])
 
