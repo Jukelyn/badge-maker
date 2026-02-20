@@ -50,7 +50,7 @@ $ python api/run.py
 then, run the development (frontend) server:
 
 ```bash
-$ npm run dev
+$ pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
