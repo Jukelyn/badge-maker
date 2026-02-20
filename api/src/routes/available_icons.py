@@ -1,14 +1,14 @@
 # pylint: disable=E0401
 """
-This module provides the route for the healthcheck endpoint.
+This module provides the route for the available icons endpoint.
 """
 from flask import jsonify
-from simpleicons.all import icons
+from simplepycons import all_icons
 
 
 def available_icons_route(app):
     """
-    Registers the healthcheck endpoint of the application.
+    Registers the available icons endpoint of the application.
 
     Args:
         app (Flask): The Flask application instance.
@@ -23,4 +23,4 @@ def available_icons_route(app):
             (jsonify): JSON response containing all simpleicons slugs.
         """
 
-        return jsonify(list(icons.keys()))
+        return jsonify(list(all_icons.keys()))

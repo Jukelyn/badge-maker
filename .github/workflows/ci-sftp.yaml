@@ -21,7 +21,7 @@ jobs:
   deploy-via-sftp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: SFTP Deploy
         uses: wlixcc/SFTP-Deploy-Action@v1.2.5
