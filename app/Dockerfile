@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml* .npmrc* ./
 
-RUN corepack prepare pnpm@10.28.1 --activate
+RUN corepack prepare pnpm@10.30.1 --activate
 
 RUN pnpm install --frozen-lockfile
 
